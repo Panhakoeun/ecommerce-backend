@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Admin Login</title>
     <style>
         :root {
             color-scheme: light;
             --ink: #18212f;
             --muted: #657184;
-            --line: #d8dee8;
+            --line: #d6e0ea;
             --surface: #ffffff;
-            --page: #f3f6fb;
-            --accent: #0f766e;
-            --accent-dark: #115e59;
+            --page: #eef4f7;
+            --accent: #0e9384;
+            --accent-dark: #0f6f67;
+            --warm: #f97316;
             --danger: #b42318;
         }
 
@@ -26,7 +29,9 @@
             min-height: 100vh;
             display: grid;
             place-items: center;
-            background: var(--page);
+            background:
+                linear-gradient(135deg, rgba(14, 147, 132, 0.12), rgba(249, 115, 22, 0.1)),
+                var(--page);
             color: var(--ink);
             font-family: Arial, Helvetica, sans-serif;
         }
@@ -36,8 +41,32 @@
             background: var(--surface);
             border: 1px solid var(--line);
             border-radius: 8px;
-            box-shadow: 0 18px 48px rgba(24, 33, 47, 0.12);
+            box-shadow: 0 22px 60px rgba(24, 33, 47, 0.16);
             padding: 32px;
+        }
+
+        .mark {
+            width: 46px;
+            height: 46px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: var(--accent);
+            color: #ffffff;
+            box-shadow: 0 14px 28px rgba(14, 147, 132, 0.24);
+            margin-bottom: 18px;
+        }
+
+        .mark svg,
+        button svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         h1 {
@@ -97,8 +126,13 @@
             background: var(--accent);
             color: #ffffff;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             font: inherit;
             font-weight: 700;
+            box-shadow: 0 12px 24px rgba(14, 147, 132, 0.22);
         }
 
         button:hover {
@@ -116,13 +150,21 @@
         }
     </style>
 </head>
+
 <body>
     <main>
+        <div class="mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 7h16l-2 12H6L4 7Z"></path>
+                <path d="M9 7a3 3 0 0 1 6 0"></path>
+            </svg>
+        </div>
+
         <h1>Admin Login</h1>
         <p>Sign in to manage your ecommerce backend.</p>
 
         @if ($errors->any())
-            <div class="error">{{ $errors->first() }}</div>
+        <div class="error">{{ $errors->first() }}</div>
         @endif
 
         <form method="POST" action="{{ url('/login') }}">
@@ -143,8 +185,16 @@
                 <span>Remember me</span>
             </label>
 
-            <button type="submit">Log in</button>
+            <button type="submit">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M10 17l5-5-5-5"></path>
+                    <path d="M15 12H3"></path>
+                    <path d="M21 4v16"></path>
+                </svg>
+                <span>Log in</span>
+            </button>
         </form>
     </main>
 </body>
+
 </html>

@@ -1,108 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Dashboard</title>
-    <style>
-        :root {
-            --ink: #18212f;
-            --muted: #657184;
-            --line: #d8dee8;
-            --surface: #ffffff;
-            --page: #f3f6fb;
-            --accent: #0f766e;
-        }
+@extends('admin.layout')
 
-        * {
-            box-sizing: border-box;
-        }
+@section('title', 'Dashboard')
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: var(--page);
-            color: var(--ink);
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        header {
-            background: var(--surface);
-            border-bottom: 1px solid var(--line);
-        }
-
-        .bar,
-        main {
-            width: min(1080px, calc(100vw - 32px));
-            margin: 0 auto;
-        }
-
-        .bar {
-            min-height: 68px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 24px;
-            line-height: 1.2;
-            letter-spacing: 0;
-        }
-
-        main {
-            padding: 32px 0;
-        }
-
-        section {
-            background: var(--surface);
-            border: 1px solid var(--line);
-            border-radius: 8px;
-            padding: 28px;
-        }
-
-        p {
-            margin: 8px 0 0;
-            color: var(--muted);
-            line-height: 1.5;
-        }
-
-        button {
-            min-height: 40px;
-            border: 1px solid var(--line);
-            border-radius: 6px;
-            background: var(--surface);
-            color: var(--ink);
-            cursor: pointer;
-            font: inherit;
-            font-weight: 700;
-            padding: 8px 14px;
-        }
-
-        button:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="bar">
-            <h1>Ecommerce Admin</h1>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit">Log out</button>
-            </form>
+@section('content')
+    <div class="topline">
+        <div>
+            <h1>Dashboard</h1>
+            <p>Welcome, {{ auth()->user()->name }}.</p>
         </div>
-    </header>
+    </div>
 
-    <main>
-        <section>
-            <h2>Welcome, {{ auth()->user()->name }}</h2>
-            <p>You are signed in as {{ auth()->user()->email }}.</p>
+    <div class="grid">
+        <div class="stat"><span>Categories</span><strong>{{ $stats['categories'] }}</strong></div>
+        <div class="stat"><span>Products</span><strong>{{ $stats['products'] }}</strong></div>
+        <div class="stat"><span>Orders</span><strong>{{ $stats['orders'] }}</strong></div>
+        <div class="stat"><span>Users</span><strong>{{ $stats['users'] }}</strong></div>
+        <div class="stat"><span>Completed Revenue</span><strong>${{ number_format($stats['revenue'], 2) }}</strong></div>
+        <div class="stat"><span>Pending Orders</span><strong>{{ $stats['pending_orders'] }}</strong></div>
+    </div>
+
+    <div class="split">
+        <section class="panel">
+            <div class="panel-body">
+                <h2>Recent Orders</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($recentOrders as $order)
+                        <tr>
+                            <td><a href="{{ route('admin.orders.show', $order) }}">#{{ $order->id }}</a></td>
+                            <td>{{ $order->user?->name ?? 'Deleted user' }}</td>
+                            <td>${{ number_format($order->total, 2) }}</td>
+                            <td><span class="badge {{ $order->status }}">{{ ucfirst($order->status) }}</span></td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="4" class="empty">No orders yet.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
         </section>
-    </main>
-</body>
-</html>
+
+        <section class="panel">
+            <div class="panel-body">
+                <h2>Low Stock Products</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($lowStockProducts as $product)
+                        <tr>
+                            <td>{{ $product->name }}</td>
+                            <td>{{ $product->category?->name ?? '-' }}</td>
+                            <td>{{ $product->stock }}</td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="3" class="empty">No low stock products.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </section>
+    </div>
+@endsection
