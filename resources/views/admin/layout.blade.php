@@ -256,6 +256,12 @@
             border-top: 3px solid var(--accent-warm);
         }
 
+        .stat.hoverable:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 16px 36px rgba(23, 32, 51, 0.1);
+        }
+
         .stat span {
             display: block;
             color: var(--muted);

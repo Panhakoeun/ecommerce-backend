@@ -15,8 +15,11 @@
         <div class="stat"><span>Products</span><strong>{{ $stats['products'] }}</strong></div>
         <div class="stat"><span>Orders</span><strong>{{ $stats['orders'] }}</strong></div>
         <div class="stat"><span>Users</span><strong>{{ $stats['users'] }}</strong></div>
-        <div class="stat"><span>Completed Revenue</span><strong>${{ number_format($stats['revenue'], 2) }}</strong></div>
-        <div class="stat"><span>Pending Orders</span><strong>{{ $stats['pending_orders'] }}</strong></div>
+        <div class="stat"><span>Revenue</span><strong>${{ number_format($stats['revenue'], 2) }}</strong></div>
+        <a href="{{ route('admin.products.index', ['stock_status' => 'low']) }}" class="stat hoverable">
+            <span>Low Stock</span>
+            <strong style="color: {{ $stats['low_stock_count'] > 0 ? '#ef4444' : 'inherit' }}">{{ $stats['low_stock_count'] }}</strong>
+        </a>
     </div>
 
     <div class="split">
@@ -50,7 +53,10 @@
 
         <section class="panel">
             <div class="panel-body">
-                <h2>Low Stock Products</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2>Low Stock Products</h2>
+                    <a href="{{ route('admin.products.index', ['stock_status' => 'low']) }}" style="font-size: 0.8rem;">View All</a>
+                </div>
             </div>
             <table>
                 <thead>
@@ -58,6 +64,7 @@
                         <th>Product</th>
                         <th>Category</th>
                         <th>Stock</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,9 +73,16 @@
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->category?->name ?? '-' }}</td>
                             <td>{{ $product->stock }}</td>
+                            <td>
+                                @if($product->stock <= 0)
+                                    <span class="badge" style="background: #fee2e2; color: #991b1b;">Out of Stock</span>
+                                @else
+                                    <span class="badge" style="background: #fef3c7; color: #92400e;">Low Stock</span>
+                                @endif
+                            </td>
                         </tr>
                     @empty
-                        <tr><td colspan="3" class="empty">No low stock products.</td></tr>
+                        <tr><td colspan="4" class="empty">No low stock products.</td></tr>
                     @endforelse
                 </tbody>
             </table>

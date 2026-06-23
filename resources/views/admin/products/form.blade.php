@@ -61,6 +61,12 @@
         <input id="stock" name="stock" type="number" min="0" step="1" value="{{ old('stock', $product->stock ?? 0) }}" required>
         @error('stock') <div class="error">{{ $message }}</div> @enderror
     </div>
+
+    <div>
+        <label for="low_stock_threshold">Low Stock Threshold</label>
+        <input id="low_stock_threshold" name="low_stock_threshold" type="number" min="0" step="1" value="{{ old('low_stock_threshold', $product->low_stock_threshold ?? 10) }}" required>
+        @error('low_stock_threshold') <div class="error">{{ $message }}</div> @enderror
+    </div>
 </div>
 
 <div class="actions">

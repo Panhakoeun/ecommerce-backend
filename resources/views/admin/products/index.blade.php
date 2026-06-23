@@ -10,8 +10,11 @@
 </style>
     <div class="topline">
         <div>
-            <h1>Products</h1>
+            <h1>Products {{ request('stock_status') === 'low' ? '(Low Stock)' : '' }}</h1>
             <p>Create and manage products.</p>
+            @if(request('stock_status'))
+                <p style="margin-top: 4px;"><a href="{{ route('admin.products.index') }}" style="color: var(--accent); font-weight: bold; text-decoration: underline;">&larr; Show all products</a></p>
+            @endif
         </div>
         <a class="button primary" href="{{ route('admin.products.create') }}">
             <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span>
@@ -46,7 +49,16 @@
                         </td>
                         <td>{{ $product->category?->name ?? '-' }}</td>
                         <td>${{ number_format($product->price, 2) }}</td>
-                        <td>{{ $product->stock }}</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span>{{ $product->stock }}</span>
+                                @if($product->stock <= $product->low_stock_threshold)
+                                    <span class="badge" style="padding: 2px 6px; font-size: 10px; background: {{ $product->stock <= 0 ? '#fee2e2' : '#fef3c7' }}; color: {{ $product->stock <= 0 ? '#b91c1c' : '#92400e' }};">
+                                        {{ $product->stock <= 0 ? 'Out' : 'Low' }}
+                                    </span>
+                                @endif
+                            </div>
+                        </td>
                         <td>
                             <div class="actions">
                                 <a class="button" href="{{ route('admin.products.edit', $product) }}">

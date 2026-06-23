@@ -19,10 +19,15 @@ class DashboardController extends Controller
             'users' => User::count(),
             'revenue' => Order::where('status', 'completed')->sum('total'),
             'pending_orders' => Order::where('status', 'pending')->count(),
+            'low_stock_count' => Product::whereColumn('stock', '<=', 'low_stock_threshold')->count(),
         ];
 
         $recentOrders = Order::with('user')->latest()->take(5)->get();
-        $lowStockProducts = Product::with('category')->where('stock', '<=', 5)->orderBy('stock')->take(5)->get();
+        $lowStockProducts = Product::with('category')
+            ->whereColumn('stock', '<=', 'low_stock_threshold')
+            ->orderBy('stock')
+            ->take(5)
+            ->get();
 
         return view('admin.dashboard', compact('stats', 'recentOrders', 'lowStockProducts'));
     }

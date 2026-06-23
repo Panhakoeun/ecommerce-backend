@@ -11,9 +11,15 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category')->latest()->paginate(10);
+        $query = Product::with('category');
+
+        if ($request->stock_status === 'low') {
+            $query->whereColumn('stock', '<=', 'low_stock_threshold');
+        }
+
+        $products = $query->latest()->paginate(10);
 
         return view('admin.products.index', compact('products'));
     }
@@ -68,6 +74,7 @@ class ProductController extends Controller
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
+            'low_stock_threshold' => ['required', 'integer', 'min:0'],
             'image' => ['nullable', 'string', 'max:255'],
             'product_image' => ['nullable', 'image', 'max:2048'],
         ]);
