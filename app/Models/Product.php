@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    protected $fillable = ['category_id', 'name', 'slug', 'description', 'price', 'stock', 'image'];
+    protected $fillable = ['category_id', 'name', 'description', 'price', 'stock', 'image'];
 
     public function category() {return $this->belongsTo(Category::class);}
     public function reviews() {return $this->hasMany(Review::class);}

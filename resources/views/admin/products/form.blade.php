@@ -19,18 +19,10 @@
     </div>
 </div>
 
-<div class="form-grid">
-    <div>
-        <label for="slug">Slug</label>
-        <input id="slug" name="slug" type="text" value="{{ old('slug', $product->slug ?? '') }}">
-        @error('slug') <div class="error">{{ $message }}</div> @enderror
-    </div>
-
-    <div>
-        <label for="image">Image URL or Path</label>
-        <input id="image" name="image" type="text" value="{{ old('image', $product->image ?? '') }}" placeholder="https://example.com/image.jpg">
-        @error('image') <div class="error">{{ $message }}</div> @enderror
-    </div>
+<div>
+    <label for="image">Image URL or Path</label>
+    <input id="image" name="image" type="text" value="{{ old('image', $product->image ?? '') }}" placeholder="https://example.com/image.jpg">
+    @error('image') <div class="error">{{ $message }}</div> @enderror
 </div>
 
 <div class="upload-grid">

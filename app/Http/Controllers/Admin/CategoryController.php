@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -18,18 +17,16 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('admin.categories.create');
+        $category = new Category();
+
+        return view('admin.categories.create', compact('category'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:categories,slug'],
         ]);
-
-        $data['slug'] = $data['slug'] ?: Str::slug($data['name']);
-        $data['slug'] = $this->uniqueSlug($data['slug']);
 
         Category::create($data);
 
@@ -45,11 +42,7 @@ class CategoryController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:categories,slug,'.$category->id],
         ]);
-
-        $data['slug'] = $data['slug'] ?: Str::slug($data['name']);
-        $data['slug'] = $this->uniqueSlug($data['slug'], $category->id);
 
         $category->update($data);
 
@@ -63,16 +56,4 @@ class CategoryController extends Controller
         return redirect()->route('admin.categories.index')->with('status', 'Category deleted.');
     }
 
-    private function uniqueSlug(string $slug, ?int $ignoreId = null): string
-    {
-        $base = Str::slug($slug) ?: 'category';
-        $candidate = $base;
-        $counter = 2;
-
-        while (Category::where('slug', $candidate)->when($ignoreId, fn ($query) => $query->whereKeyNot($ignoreId))->exists()) {
-            $candidate = $base.'-'.$counter++;
-        }
-
-        return $candidate;
-    }
 }

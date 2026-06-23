@@ -3,6 +3,11 @@
 @section('title', 'Products')
 
 @section('content')
+<style>
+    .actions { justify-content: center !important; align-items: center; }
+    th:last-child, td:last-child { text-align: center !important; }
+    .actions form { display: flex; margin: 0; }
+</style>
     <div class="topline">
         <div>
             <h1>Products</h1>
@@ -23,7 +28,7 @@
                     <th>Category</th>
                     <th>Price</th>
                     <th>Stock</th>
-                    <th></th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,7 +43,6 @@
                         </td>
                         <td>
                             <strong>{{ $product->name }}</strong>
-                            <p>{{ $product->slug }}</p>
                         </td>
                         <td>{{ $product->category?->name ?? '-' }}</td>
                         <td>${{ number_format($product->price, 2) }}</td>

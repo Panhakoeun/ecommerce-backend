@@ -3,6 +3,11 @@
 @section('title', 'Categories')
 
 @section('content')
+<style>
+    .actions { justify-content: center !important; align-items: center; }
+    th:last-child, td:last-child { text-align: center !important; }
+    .actions form { display: flex; margin: 0; }
+</style>
     <div class="topline">
         <div>
             <h1>Categories</h1>
@@ -19,17 +24,17 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Slug</th>
                     <th>Products</th>
-                    <th></th>
+                    <th>Created At</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($categories as $category)
                     <tr>
                         <td>{{ $category->name }}</td>
-                        <td>{{ $category->slug }}</td>
                         <td>{{ $category->products_count }}</td>
+                        <td>{{ $category->created_at->format('d M Y, H:i') }}</td>
                         <td>
                             <div class="actions">
                                 <a class="button" href="{{ route('admin.categories.edit', $category) }}">
