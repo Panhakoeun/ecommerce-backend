@@ -20,4 +20,15 @@ class OrderController extends Controller
 
         return view('admin.orders.show', compact('order'));
     }
+
+    public function update(Order $order)
+    {
+        $validated = request()->validate([
+            'status' => 'required|in:pending,completed,cancelled'
+        ]);
+
+        $order->update($validated);
+
+        return back()->with('status', 'Order status updated successfully.');
+    }
 }

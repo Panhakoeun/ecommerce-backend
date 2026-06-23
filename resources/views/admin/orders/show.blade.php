@@ -8,7 +8,26 @@
             <h1>Order #{{ $order->id }}</h1>
             <p>Placed {{ $order->created_at?->format('M d, Y h:i A') }}.</p>
         </div>
-        <a class="button" href="{{ route('admin.orders.index') }}">Back to Orders</a>
+        <div class="actions">
+            @if($order->status !== 'completed')
+                <form action="{{ route('admin.orders.update', $order) }}" method="POST" style="display:inline">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="status" value="completed">
+                    <button type="submit" class="button primary">Mark as Completed</button>
+                </form>
+            @endif
+
+            @if($order->status !== 'cancelled')
+                <form action="{{ route('admin.orders.update', $order) }}" method="POST" style="display:inline">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="status" value="cancelled">
+                    <button type="submit" class="button">Cancel Order</button>
+                </form>
+            @endif
+            <a class="button" href="{{ route('admin.orders.index') }}">Back to Orders</a>
+        </div>
     </div>
 
     <div class="grid">

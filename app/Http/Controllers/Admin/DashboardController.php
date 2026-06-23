@@ -18,6 +18,8 @@ class DashboardController extends Controller
             'orders' => Order::count(),
             'users' => User::count(),
             'revenue' => Order::where('status', 'completed')->sum('total'),
+            'pending_revenue' => Order::where('status', 'pending')->sum('total'),
+            'total_potential_revenue' => Order::whereIn('status', ['pending', 'completed'])->sum('total'),
             'pending_orders' => Order::where('status', 'pending')->count(),
             'low_stock_count' => Product::whereColumn('stock', '<=', 'low_stock_threshold')->count(),
         ];

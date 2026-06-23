@@ -15,7 +15,9 @@
         <div class="stat"><span>Products</span><strong>{{ $stats['products'] }}</strong></div>
         <div class="stat"><span>Orders</span><strong>{{ $stats['orders'] }}</strong></div>
         <div class="stat"><span>Users</span><strong>{{ $stats['users'] }}</strong></div>
-        <div class="stat"><span>Revenue</span><strong>${{ number_format($stats['revenue'], 2) }}</strong></div>
+        <div class="stat"><span>Completed Revenue</span><strong>${{ number_format($stats['revenue'], 2) }}</strong></div>
+        <div class="stat"><span>Pending Revenue</span><strong>${{ number_format($stats['pending_revenue'], 2) }}</strong></div>
+        <div class="stat"><span>Total Potential</span><strong>${{ number_format($stats['total_potential_revenue'], 2) }}</strong></div>
         <a href="{{ route('admin.products.index', ['stock_status' => 'low']) }}" class="stat hoverable">
             <span>Low Stock</span>
             <strong style="color: {{ $stats['low_stock_count'] > 0 ? '#ef4444' : 'inherit' }}">{{ $stats['low_stock_count'] }}</strong>
@@ -34,6 +36,7 @@
                         <th>Customer</th>
                         <th>Total</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,9 +46,31 @@
                             <td>{{ $order->user?->name ?? 'Deleted user' }}</td>
                             <td>${{ number_format($order->total, 2) }}</td>
                             <td><span class="badge {{ $order->status }}">{{ ucfirst($order->status) }}</span></td>
+                            <td>
+                                <div class="actions">
+                                    @if($order->status === 'pending')
+                                        <form action="{{ route('admin.orders.update', $order) }}" method="POST" style="display:inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="completed">
+                                            <button type="submit" class="button primary" title="Mark as Completed" style="padding: 4px 8px; min-height: 32px;">
+                                                <span class="icon" style="width: 14px; height: 14px;"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span>
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('admin.orders.update', $order) }}" method="POST" style="display:inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="cancelled">
+                                            <button type="submit" class="button danger" title="Cancel Order" style="padding: 4px 8px; min-height: 32px;">
+                                                <span class="icon" style="width: 14px; height: 14px;"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"></path></svg></span>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </td>
                         </tr>
                     @empty
-                        <tr><td colspan="4" class="empty">No orders yet.</td></tr>
+                        <tr><td colspan="5" class="empty">No orders yet.</td></tr>
                     @endforelse
                 </tbody>
             </table>
