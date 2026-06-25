@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,7 +22,9 @@
             --warn: #946200;
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
@@ -31,7 +34,10 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
-        a { color: inherit; text-decoration: none; }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
         .shell {
             min-height: 100vh;
@@ -217,11 +223,33 @@
             margin-bottom: 20px;
         }
 
-        h1, h2, h3 { margin: 0; letter-spacing: 0; }
-        h1 { font-size: 28px; line-height: 1.2; }
-        h2 { font-size: 20px; line-height: 1.25; }
-        h3 { font-size: 16px; line-height: 1.3; }
-        p { color: var(--muted); line-height: 1.5; margin: 8px 0 0; }
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            letter-spacing: 0;
+        }
+
+        h1 {
+            font-size: 28px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 20px;
+            line-height: 1.25;
+        }
+
+        h3 {
+            font-size: 16px;
+            line-height: 1.3;
+        }
+
+        p {
+            color: var(--muted);
+            line-height: 1.5;
+            margin: 8px 0 0;
+        }
 
         .panel {
             background: var(--surface);
@@ -231,7 +259,9 @@
             box-shadow: 0 14px 34px rgba(23, 32, 51, 0.07);
         }
 
-        .panel-body { padding: 20px; }
+        .panel-body {
+            padding: 20px;
+        }
 
         .grid {
             display: grid;
@@ -287,7 +317,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             border-bottom: 1px solid var(--line);
             padding: 14px 16px;
             text-align: left;
@@ -301,8 +332,13 @@
             text-transform: uppercase;
         }
 
-        tr:last-child td { border-bottom: 0; }
-        tbody tr:hover { background: #fbfcfe; }
+        tr:last-child td {
+            border-bottom: 0;
+        }
+
+        tbody tr:hover {
+            background: #fbfcfe;
+        }
 
         .actions {
             display: flex;
@@ -343,7 +379,9 @@
         }
 
         .button.primary:hover,
-        button.primary:hover { background: var(--accent-dark); }
+        button.primary:hover {
+            background: var(--accent-dark);
+        }
 
         .button.danger,
         button.danger {
@@ -371,9 +409,20 @@
             padding: 3px 9px;
         }
 
-        .badge.completed { background: #e8f5ee; color: #137547; }
-        .badge.pending { background: #fff5d6; color: var(--warn); }
-        .badge.cancelled { background: #fdecec; color: var(--danger); }
+        .badge.completed {
+            background: #e8f5ee;
+            color: #137547;
+        }
+
+        .badge.pending {
+            background: #fff5d6;
+            color: var(--warn);
+        }
+
+        .badge.cancelled {
+            background: #fdecec;
+            color: var(--danger);
+        }
 
         form.stack {
             display: grid;
@@ -544,7 +593,8 @@
                 justify-content: flex-start;
             }
 
-            th, td {
+            th,
+            td {
                 padding: 12px 10px;
             }
 
@@ -554,12 +604,16 @@
         }
     </style>
 </head>
+
 <body>
     <div class="shell">
         <aside>
             <a class="brand" href="{{ route('admin.dashboard') }}">
                 <span class="brand-mark">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16l-2 12H6L4 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 7h16l-2 12H6L4 7Z"></path>
+                        <path d="M9 7a3 3 0 0 1 6 0"></path>
+                    </svg>
                 </span>
                 <span>Ecommerce Admin</span>
             </a>
@@ -570,24 +624,50 @@
             </div>
 
             <nav>
-                <a class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                    <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h6V4H4v9Z"></path><path d="M14 20h6V4h-6v16Z"></path><path d="M4 20h6v-3H4v3Z"></path></svg></span>
+                <a class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                    href="{{ route('admin.dashboard') }}">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M4 13h6V4H4v9Z"></path>
+                            <path d="M14 20h6V4h-6v16Z"></path>
+                            <path d="M4 20h6v-3H4v3Z"></path>
+                        </svg></span>
                     <span>Dashboard</span>
                 </a>
-                <a class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
-                    <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg></span>
+                <a class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}"
+                    href="{{ route('admin.categories.index') }}">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M4 6h16"></path>
+                            <path d="M4 12h16"></path>
+                            <path d="M4 18h16"></path>
+                        </svg></span>
                     <span>Categories</span>
                 </a>
-                <a class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">
-                    <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16H6V4Z"></path><path d="M9 8h6"></path><path d="M9 12h6"></path><path d="M9 16h3"></path></svg></span>
+                <a class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}"
+                    href="{{ route('admin.products.index') }}">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M6 4h12v16H6V4Z"></path>
+                            <path d="M9 8h6"></path>
+                            <path d="M9 12h6"></path>
+                            <path d="M9 16h3"></path>
+                        </svg></span>
                     <span>Products</span>
                 </a>
-                <a class="{{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
-                    <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10l2 16H5L7 4Z"></path><path d="M9 8h6"></path><path d="M9 12h6"></path></svg></span>
+                <a class="{{ request()->routeIs('admin.orders.*') ? 'active' : '' }}"
+                    href="{{ route('admin.orders.index') }}">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M7 4h10l2 16H5L7 4Z"></path>
+                            <path d="M9 8h6"></path>
+                            <path d="M9 12h6"></path>
+                        </svg></span>
                     <span>Orders</span>
                 </a>
-                <a class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
-                    <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20v-2a4 4 0 0 0-8 0v2"></path><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path><path d="M18 10a3 3 0 0 1 3 3v2"></path></svg></span>
+                <a class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}"
+                    href="{{ route('admin.users.index') }}">
+                    <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M16 20v-2a4 4 0 0 0-8 0v2"></path>
+                            <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path>
+                            <path d="M18 10a3 3 0 0 1 3 3v2"></path>
+                        </svg></span>
                     <span>Users</span>
                 </a>
             </nav>
@@ -596,7 +676,11 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button class="logout-button" type="submit">
-                        <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5"></path><path d="M15 12H3"></path><path d="M21 4v16"></path></svg></span>
+                        <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M10 17l5-5-5-5"></path>
+                                <path d="M15 12H3"></path>
+                                <path d="M21 4v16"></path>
+                            </svg></span>
                         <span>Log out</span>
                     </button>
                 </form>
@@ -619,4 +703,5 @@
         </div>
     </div>
 </body>
+
 </html>

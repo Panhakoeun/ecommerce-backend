@@ -164,7 +164,7 @@
         <p>Sign in to manage your ecommerce backend.</p>
 
         @if ($errors->any())
-        <div class="error">{{ $errors->first() }}</div>
+            <div class="error">{{ $errors->first() }}</div>
         @endif
 
         <form method="POST" action="{{ url('/login') }}">
@@ -172,7 +172,8 @@
 
             <div class="field">
                 <label for="email">Email</label>
-                <input id="email" name="email" type="email" value="{{ old('email', 'panha.koeun142007@gmail.com') }}" autocomplete="email" required autofocus>
+                <input id="email" name="email" type="email" value="{{ old('email', 'panha.koeun142007@gmail.com') }}"
+                    autocomplete="email" required autofocus>
             </div>
 
             <div class="field">
