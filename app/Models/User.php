@@ -6,9 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 
+
+use Laravel\Sanctum\HasApiTokens; //Import the Sanctum trait
+
+//Apply the trait to the User model
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */

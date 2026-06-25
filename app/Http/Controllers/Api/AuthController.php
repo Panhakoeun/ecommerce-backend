@@ -19,7 +19,7 @@ class AuthController extends Controller
 
         ]);
         $user = User::create([...$data, 'password' => bcrypt($data['password'])]);
-        $token = $user->createToken('api-token')->plainTextToken;
+        $token = $user->createToken('api-token')->plainTextToken;//Create token on REGISTER
         return response()->json(['user' => $user, 'token' => $token], 201);
     }
     public function login(Request $request)
@@ -29,9 +29,10 @@ class AuthController extends Controller
         if (!Auth::attempt($data)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
-        $token = Auth::user()->createToken('api-token')->plainTextToken;
+        $token = Auth::user()->createToken('api-token')->plainTextToken;//Create token on LOGIN
         return response()->json(['user' => Auth::user(), 'token' => $token]);
     }
+    //Delete token on LOGOUT
     public function logout(Request $request)
     {
         /** @var \Laravel\Sanctum\PersonalAccessToken|null $token */
