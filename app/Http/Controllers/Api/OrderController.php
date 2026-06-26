@@ -17,6 +17,12 @@ class OrderController extends Controller
         return $request->user()->orders()->with('items.product')->latest()->get();
     }
 
+    public function show(Request $request, $id)
+    {
+        $order = $request->user()->orders()->with('items.product')->findOrFail($id);
+        return response()->json($order);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
