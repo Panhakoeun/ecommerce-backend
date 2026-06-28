@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\SwaggerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,9 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
+
+Route::get('/api/documentation', [SwaggerController::class, 'index'])->name('swagger.index');
+Route::get('/api/docs.json', [SwaggerController::class, 'spec'])->name('swagger.spec');
 
 Route::post('/login', function (Request $request) {
     $credentials = $request->validate([
