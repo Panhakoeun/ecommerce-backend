@@ -28,6 +28,10 @@
                 deepLinking: true,
                 persistAuthorization: true,
                 displayRequestDuration: true,
+                requestInterceptor: (req) => {
+                    req.headers['Accept'] = 'application/json';
+                    return req;
+                },
             });
         };
     </script>
