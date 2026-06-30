@@ -31,11 +31,27 @@
                         <td><span class="badge {{ $order->status }}">{{ ucfirst($order->status) }}</span></td>
                         <td>{{ $order->created_at?->format('M d, Y') }}</td>
                         <td>
-                            <div class="actions">
+                            <div class="actions" style="display: flex; gap: 8px; align-items: center;">
                                 <a class="button" href="{{ route('admin.orders.show', $order) }}">
                                     <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"></path><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path></svg></span>
                                     <span>View</span>
                                 </a>
+                                @if ($order->status === 'pending')
+                                    <form method="POST" action="{{ route('admin.orders.updateStatus', $order) }}">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="processing">
+                                        <button class="primary" type="submit" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border-radius: 8px;">Confirm Order</button>
+                                    </form>
+                                @endif
+                                @if ($order->status === 'processing')
+                                    <form method="POST" action="{{ route('admin.orders.updateStatus', $order) }}">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="completed">
+                                        <button class="primary" type="submit" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border-radius: 8px; background: #16a34a;">Complete</button>
+                                    </form>
+                                @endif
                             </div>
                         </td>
                     </tr>

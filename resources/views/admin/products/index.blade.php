@@ -43,7 +43,7 @@
                             @endif
                         </td>
                         <td>{{ $product->category?->name ?? '—' }}</td>
-                        <td class="price-cell">${{ number_format($product->price, 2) }}</td>
+                        <td class="price-cell">${{ number_format($product->price_s, 2) }}</td>
                         <td>
                             <span class="{{ $product->stock <= 0 ? 'badge cancelled' : ($product->stock <= 5 ? 'badge pending' : '') }}">
                                 {{ $product->stock }}

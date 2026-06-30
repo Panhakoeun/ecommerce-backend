@@ -18,10 +18,10 @@ class CartController extends Controller
         $data = $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'integer|min:1',
-            'size' => 'nullable|string|in:S,M,L',
+            'size' => 'required|string|in:S,M,L',
         ]);
         
-        $size = $data['size'] ?? null;
+        $size = $data['size'];
         
         $cart = Cart::where('user_id', $request->user()->id)
                     ->where('product_id', $data['product_id'])

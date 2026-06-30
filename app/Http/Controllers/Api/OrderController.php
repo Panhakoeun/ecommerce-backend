@@ -63,10 +63,12 @@ class OrderController extends Controller
         $order = DB::transaction(function () use ($user, $cartItems, $data) {
             $total = 0;
             foreach ($cartItems as $item) {
-                $actualPrice = $item->product->price;
-                if ($item->size === 'S' && $item->product->price_s > 0) $actualPrice = $item->product->price_s;
-                if ($item->size === 'M' && $item->product->price_m > 0) $actualPrice = $item->product->price_m;
-                if ($item->size === 'L' && $item->product->price_l > 0) $actualPrice = $item->product->price_l;
+                $actualPrice = match($item->size) {
+                    'S' => $item->product->price_s,
+                    'M' => $item->product->price_m,
+                    'L' => $item->product->price_l,
+                    default => $item->product->price_s,
+                };
                 
                 $total += $actualPrice * $item->quantity;
             }
@@ -79,10 +81,12 @@ class OrderController extends Controller
             ]);
 
             foreach ($cartItems as $item) {
-                $actualPrice = $item->product->price;
-                if ($item->size === 'S' && $item->product->price_s > 0) $actualPrice = $item->product->price_s;
-                if ($item->size === 'M' && $item->product->price_m > 0) $actualPrice = $item->product->price_m;
-                if ($item->size === 'L' && $item->product->price_l > 0) $actualPrice = $item->product->price_l;
+                $actualPrice = match($item->size) {
+                    'S' => $item->product->price_s,
+                    'M' => $item->product->price_m,
+                    'L' => $item->product->price_l,
+                    default => $item->product->price_s,
+                };
                 
                 $order->items()->create([
                     'product_id' => $item->product_id,

@@ -28,18 +28,43 @@
     <section class="panel" style="margin-bottom: 18px;">
         <div class="panel-body">
             <h2>Update Order Status</h2>
-            <form method="POST" action="{{ route('admin.orders.updateStatus', $order) }}" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                @csrf
-                @method('PATCH')
-                <select name="status" style="min-width:180px;">
-                    @foreach (['pending', 'processing', 'completed', 'cancelled'] as $s)
-                        <option value="{{ $s }}" @selected($order->status === $s)>{{ ucfirst($s) }}</option>
-                    @endforeach
-                </select>
-                <button class="primary" type="submit">Update Status</button>
-            </form>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start;">
+                <form method="POST" action="{{ route('admin.orders.updateStatus', $order) }}" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: rgba(0,0,0,0.02);">
+                    @csrf
+                    @method('PATCH')
+                    <select name="status" style="min-width:180px;">
+                        @foreach (['pending', 'processing', 'completed', 'cancelled'] as $s)
+                            <option value="{{ $s }}" @selected($order->status === $s)>{{ ucfirst($s) }}</option>
+                        @endforeach
+                    </select>
+                    <button class="button" type="submit">Update Status</button>
+                </form>
+
+                @if ($order->status === 'pending')
+                    <form method="POST" action="{{ route('admin.orders.updateStatus', $order) }}">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="status" value="processing">
+                        <button type="submit" class="primary" style="padding: 13px 24px; font-size: 1rem; border-radius: 12px; display: flex; align-items: center; justify-content: center;gap: 8px;">
+                            <span>📦</span> Confirm Order Process
+                        </button>
+                    </form>
+                @endif
+
+                @if ($order->status === 'processing')
+                    <form method="POST" action="{{ route('admin.orders.updateStatus', $order) }}">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="status" value="completed">
+                        <button type="submit" class="primary" style="padding: 13px 24px; font-size: 1rem; border-radius: 12px; display: flex; align-items: center; justify-content: center;gap: 8px; background: #16a34a;">
+                            <span>✅</span> Mark as Completed
+                        </button>
+                    </form>
+                @endif
+            </div>
+            
             @if (session('status'))
-                <p style="color:var(--green,#22c55e);margin-top:8px;">{{ session('status') }}</p>
+                <p style="color:var(--green,#22c55e);margin-top:12px; font-weight: 600;">{{ session('status') }}</p>
             @endif
         </div>
     </section>
