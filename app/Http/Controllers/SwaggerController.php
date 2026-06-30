@@ -621,7 +621,6 @@ class SwaggerController extends Controller
                     'properties' => [
                         'id' => ['type' => 'integer', 'example' => 1],
                         'name' => ['type' => 'string', 'example' => 'Clothing'],
-                        'slug' => ['type' => 'string', 'example' => 'clothing'],
                         'created_at' => ['type' => 'string', 'format' => 'date-time'],
                         'updated_at' => ['type' => 'string', 'format' => 'date-time'],
                     ],
@@ -632,7 +631,6 @@ class SwaggerController extends Controller
                         'id' => ['type' => 'integer', 'example' => 1],
                         'category_id' => ['type' => 'integer', 'example' => 1],
                         'name' => ['type' => 'string', 'example' => 'Cotton T-Shirt'],
-                        'slug' => ['type' => 'string', 'example' => 'cotton-t-shirt'],
                         'description' => ['type' => 'string', 'nullable' => true, 'example' => 'Comfortable cotton t-shirt.'],
                         'price' => ['type' => 'string', 'example' => '19.99'],
                         'stock' => ['type' => 'integer', 'example' => 25],

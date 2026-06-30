@@ -38,7 +38,6 @@
                         </td>
                         <td>
                             <strong>{{ $product->name }}</strong>
-                            <p>{{ $product->slug }}</p>
                         </td>
                         <td>{{ $product->category?->name ?? '-' }}</td>
                         <td>${{ number_format($product->price, 2) }}</td>

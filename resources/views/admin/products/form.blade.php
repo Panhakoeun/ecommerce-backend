@@ -21,12 +21,6 @@
 
 <div class="form-grid">
     <div>
-        <label for="slug">Slug</label>
-        <input id="slug" name="slug" type="text" value="{{ old('slug', $product->slug ?? '') }}">
-        @error('slug') <div class="error">{{ $message }}</div> @enderror
-    </div>
-
-    <div>
         <label for="image">Image URL or Path</label>
         <input id="image" name="image" type="text" value="{{ old('image', $product->image ?? '') }}" placeholder="https://example.com/image.jpg">
         @error('image') <div class="error">{{ $message }}</div> @enderror
@@ -43,7 +37,7 @@
 
     <div class="image-preview">
         @if (($product ?? null)?->image_url)
-            <img id="product_preview" src="{{ $product->image_url }}" alt="{{ $product->name }}">
+            <img id="product_preview" src="{{ $product->image_url }}" alt="{{ $product->name ?? '' }}">
         @else
             <div id="product_preview_empty">No image selected</div>
             <img id="product_preview" src="" alt="" hidden>

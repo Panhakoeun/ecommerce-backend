@@ -28,7 +28,6 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data = $this->validatedData($request);
-        $data['slug'] = $this->uniqueSlug($data['slug'] ?: Str::slug($data['name']));
         $data = $this->prepareImageData($request, $data);
 
         Product::create($data);
@@ -46,7 +45,6 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $data = $this->validatedData($request, $product);
-        $data['slug'] = $this->uniqueSlug($data['slug'] ?: Str::slug($data['name']), $product->id);
         $data = $this->prepareImageData($request, $data, $product);
 
         $product->update($data);
@@ -67,7 +65,6 @@ class ProductController extends Controller
         return $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:products,slug'.($product ? ','.$product->id : '')],
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
@@ -98,18 +95,4 @@ class ProductController extends Controller
         }
 
         Storage::disk('public')->delete($image);
-    }
-
-    private function uniqueSlug(string $slug, ?int $ignoreId = null): string
-    {
-        $base = Str::slug($slug) ?: 'product';
-        $candidate = $base;
-        $counter = 2;
-
-        while (Product::where('slug', $candidate)->when($ignoreId, fn ($query) => $query->whereKeyNot($ignoreId))->exists()) {
-            $candidate = $base.'-'.$counter++;
-        }
-
-        return $candidate;
-    }
-}
+    }}

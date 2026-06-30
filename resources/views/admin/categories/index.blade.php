@@ -19,7 +19,6 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Slug</th>
                     <th>Products</th>
                     <th></th>
                 </tr>
@@ -28,7 +27,6 @@
                 @forelse ($categories as $category)
                     <tr>
                         <td>{{ $category->name }}</td>
-                        <td>{{ $category->slug }}</td>
                         <td>{{ $category->products_count }}</td>
                         <td>
                             <div class="actions">
@@ -48,7 +46,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="4" class="empty">No categories yet.</td></tr>
+                    <tr><td colspan="3" class="empty">No categories yet.</td></tr>
                 @endforelse
             </tbody>
         </table>
