@@ -16,7 +16,7 @@ class OrderController extends Controller
     {
         $orders = $request->user()
             ->orders()
-            ->with(['items.product'])
+            ->with(['items.product.category'])
             ->latest()
             ->get();
 
@@ -32,7 +32,7 @@ class OrderController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        return response()->json($order->load(['items.product']));
+        return response()->json($order->load(['items.product.category']));
     }
 
     /**
@@ -61,7 +61,15 @@ class OrderController extends Controller
         }
 
         $order = DB::transaction(function () use ($user, $cartItems, $data) {
-            $total = $cartItems->sum(fn ($item) => $item->product->price * $item->quantity);
+            $total = 0;
+            foreach ($cartItems as $item) {
+                $actualPrice = $item->product->price;
+                if ($item->size === 'S' && $item->product->price_s > 0) $actualPrice = $item->product->price_s;
+                if ($item->size === 'M' && $item->product->price_m > 0) $actualPrice = $item->product->price_m;
+                if ($item->size === 'L' && $item->product->price_l > 0) $actualPrice = $item->product->price_l;
+                
+                $total += $actualPrice * $item->quantity;
+            }
 
             $order = Order::create([
                 'user_id' => $user->id,
@@ -71,10 +79,16 @@ class OrderController extends Controller
             ]);
 
             foreach ($cartItems as $item) {
+                $actualPrice = $item->product->price;
+                if ($item->size === 'S' && $item->product->price_s > 0) $actualPrice = $item->product->price_s;
+                if ($item->size === 'M' && $item->product->price_m > 0) $actualPrice = $item->product->price_m;
+                if ($item->size === 'L' && $item->product->price_l > 0) $actualPrice = $item->product->price_l;
+                
                 $order->items()->create([
                     'product_id' => $item->product_id,
                     'quantity'   => $item->quantity,
-                    'price'      => $item->product->price,
+                    'price'      => $actualPrice,
+                    'size'       => $item->size,
                 ]);
 
                 // Decrement stock
@@ -87,6 +101,6 @@ class OrderController extends Controller
             return $order;
         });
 
-        return response()->json($order->load(['items.product']), 201);
+        return response()->json($order->load(['items.product.category']), 201);
     }
 }

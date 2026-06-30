@@ -367,6 +367,7 @@
 
         .badge.completed { background: #e8f5ee; color: #137547; }
         .badge.pending { background: #fff5d6; color: var(--warn); }
+        .badge.processing { background: #e0f0ff; color: #1a6fb5; }
         .badge.cancelled { background: #fdecec; color: var(--danger); }
 
         form.stack {
@@ -414,6 +415,52 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
+        }
+
+        /* Strict 50/50 two-column grid for price+stock and category+name */
+        .form-grid-half {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* Currency / unit prefix on inputs */
+        .input-prefix-wrap {
+            position: relative;
+            display: flex;
+            align-items: stretch;
+        }
+
+        .input-prefix {
+            display: inline-flex;
+            align-items: center;
+            padding: 0 12px;
+            border: 1px solid var(--line);
+            border-right: 0;
+            border-radius: 6px 0 0 6px;
+            background: #f0f4f8;
+            color: var(--muted);
+            font-size: 15px;
+            font-weight: 700;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .input-prefix-wrap input.has-prefix {
+            border-radius: 0 6px 6px 0;
+            border-left: 0;
+        }
+
+        .input-prefix-wrap input.has-prefix:focus {
+            border-left: 0;
+        }
+
+        /* Optional field label */
+        .label-optional {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--muted);
+            margin-left: 4px;
         }
 
         .upload-grid {
@@ -494,6 +541,27 @@
             text-align: center;
         }
 
+        .empty a {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Product table helpers */
+        .row-hint {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 3px;
+            line-height: 1.4;
+        }
+
+        .price-cell {
+            font-size: 15px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            color: var(--ink);
+            white-space: nowrap;
+        }
+
         .pagination {
             padding: 16px;
         }
@@ -543,6 +611,10 @@
             }
 
             .upload-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid-half {
                 grid-template-columns: 1fr;
             }
         }

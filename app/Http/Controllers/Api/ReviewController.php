@@ -32,7 +32,7 @@ class ReviewController extends Controller
             'user_id' => $request->user()->id,
         ]);
 
-        return response()->json($review->load('user'), 201);
+        return response()->json($review->load(['user', 'product']), 201);
     }
 
     /**
@@ -51,7 +51,7 @@ class ReviewController extends Controller
 
         $review->update($data);
 
-        return response()->json($review->load('user'));
+        return response()->json($review->load(['user', 'product']));
     }
 
     /**

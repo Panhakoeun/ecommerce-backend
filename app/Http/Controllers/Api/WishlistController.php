@@ -14,7 +14,7 @@ class WishlistController extends Controller
     public function index(Request $request)
     {
         return response()->json(
-            $request->user()->wishlists()->with('product')->get()
+            $request->user()->wishlists()->with('product.category')->get()
         );
     }
 
@@ -32,7 +32,7 @@ class WishlistController extends Controller
             'product_id' => $data['product_id'],
         ]);
 
-        return response()->json($wishlist->load('product'), 201);
+        return response()->json($wishlist->load('product.category'), 201);
     }
 
     /**
